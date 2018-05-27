@@ -1,26 +1,22 @@
-/// <reference path="../node_modules/discord.js/typings/index.d.ts"/>
-/// <reference path="../node_modules/discord.js-commando/typings/index.d.ts"/>
-
-import {CommandoClient} from "discord.js-commando";
+/// <reference path="../node_modules/eris/index.d.ts" />
+import {Client} from "eris";
 import {Config} from "./Config";
-import * as path from 'path';
+import {onMessageCreate, onReady} from "./events";
 
-const client = new CommandoClient({
-    owner: '239790360728043520',
-    commandPrefix: '%',
-    unknownCommandResponse: false,
+class TSBot extends Client {
+    commands = new Map();
 
-});
+    constructor(token: string) {
+        super(token);
+        this.run()
+    }
 
-client.registry.registerGroups([
-    ['general', 'General Commands'],
-    ['moderation', 'Moderation Commands']
-]).registerDefaults()
-    .registerCommandsIn(path.join(__dirname, 'commands'));
+    async run() {
+        this.on("ready", onReady);
+        this.on("messageCreate", onMessageCreate);
 
-client.on('ready', ()=>{
-    console.log(`Logged in successfully ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
-    client.user.setPresence({game:{name:" with Discord Bots"}});
-});
+        await this.connect();
+    }
+}
 
-client.login(new Config().token);
+new TSBot(new Config().token);
