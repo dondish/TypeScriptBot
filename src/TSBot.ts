@@ -4,7 +4,7 @@ import {Config} from "./Config";
 import {onMessageCreate, onReady} from "./events";
 
 class TSBot extends Client {
-    commands = new Map();
+    commands: Map<string, object> = new Map();
 
     constructor(token: string) {
         super(token);
