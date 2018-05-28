@@ -1,11 +1,11 @@
-import {Guild, GuildChannel, TextChannel, User} from "eris";
+import {Guild, GuildChannel, PrivateChannel, TextChannel, User} from "eris";
 
 const typesName = ["Mute", "Kick", "Ban", "Unmute", "Unban"];
 const typesColor = [0xffff30, 0xffff30, 0xfc0f0f, 0x0fff3f, 0x0fff3f];
 
 export function formatToLog(user: User, mod: User, type: number, reason: string) {
-    const name = typesName[type];
-    const color = typesColor[type];
+    const name: string = typesName[type];
+    const color: number = typesColor[type];
 
     const embed = {
         color,
@@ -37,9 +37,9 @@ export async function executeAction(type: number, user: User, mod: User, reason:
         case 4:
             guild.unbanMember(user.id, !reason ? "" : reason);
     }
-    const log = guild.channels.find((channel) => channel.name=="mod-log"&&channel.type==0) as TextChannel;
-    const dm = await user.getDMChannel();
-    const message = formatToLog(user, mod, type, reason);
+    const log: TextChannel = guild.channels.find((channel) => channel.name=="mod-log"&&channel.type==0) as TextChannel;
+    const dm: PrivateChannel = await user.getDMChannel();
+    const message: object = formatToLog(user, mod, type, reason);
     dm.createMessage({embed:message});
     log.createMessage({embed:message})
 }

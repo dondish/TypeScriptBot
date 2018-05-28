@@ -1,4 +1,4 @@
-import {Message, TextChannel} from "eris";
+import {Guild, Message, TextChannel} from "eris";
 import {executeAction} from "./utils/ModerationUtils";
 import CommandParams from "./structs/CommandParams";
 
@@ -12,8 +12,8 @@ export async function onMessageCreate(msg: Message) {
     if (msg.channel.type != 0)
         return;
 
-    const channel = msg.channel as TextChannel;
-    const guild = channel.guild;
+    const channel: TextChannel = msg.channel as TextChannel;
+    const guild: Guild = channel.guild;
 
     if (!msg.member.permission.has("MANAGE_SERVER")) {
         if (msg.mentions.length > 7) {
@@ -27,11 +27,11 @@ export async function onMessageCreate(msg: Message) {
     if (!msg.content.startsWith("%")||!msg.content.startsWith(this.user.mention))
         return;
 
-    const effectivePrefix = msg.content.startsWith("%") ? 1 : this.user.mention.length;
+    const effectivePrefix: number = msg.content.startsWith("%") ? 1 : this.user.mention.length;
 
-    const command = msg.content.split(" ")[0].substring(effectivePrefix);
+    const command: string = msg.content.split(" ")[0].substring(effectivePrefix);
 
-    const args = msg.content.split(" ").slice(1).join(" ");
+    const args: string = msg.content.split(" ").slice(1).join(" ");
 
     if (this.commands.has(command)) {
         this.commands.get(command).execute({client: this, args: args, msg: msg, author: msg.member, guild: guild} as CommandParams)
