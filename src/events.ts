@@ -19,9 +19,9 @@ export async function onMessageCreate(msg: Message) {
 
     if (!msg.member.permission.has("manageGuild")) {
         if (msg.mentions.length > 7) {
-            executeAction(2, msg.author, this.user, "Mass pinging (over 7 mentions)", guild)
+            executeAction(2, msg.author, this.user, "Mass pinging (over 7 mentions)", guild, this)
         } else if (msg.content.match(new RegExp("https://discord.gg/"))) {
-            executeAction(2, msg.author, this.user, "ads in " + channel.mention, guild)
+            executeAction(2, msg.author, this.user, "ads in " + channel.mention, guild, this)
         }
         return;
     }
