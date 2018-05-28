@@ -6,7 +6,7 @@ import { TSBot } from "./TSBot";
 
 export async function onReady() {
     console.log(`Successfully logged in, ${this.user.username}#${this.user.discriminator}\nCommands:\n${stringifyMap(this.commands)}`);
-    this.editStatus('online', {name: " Discord Bots", type:2})
+    this.editStatus('online', {name: " the quiet sound of a good server", type:2})
 }
 
 export async function onMessageCreate(msg: Message) {
