@@ -1,15 +1,21 @@
 import CommandParams from "./CommandParams";
 import {executeAction} from "../utils/ModerationUtils";
-import {User} from "eris";
+import {User, Member} from "eris";
+import Command from "./Command";
 
-export default class ModCommand {
-    type: number;
+export default abstract class ModCommand extends Command {
+    abstract type: number;
 
     async execute(params: CommandParams) {
-        let member: User;
+        let member: Member;
         if (params.msg.mentions.length > 0&&params.msg.mentions[0].id!=params.client.user.id) {
-            member = params.msg.mentions[0];
+            member = await params.guild.getRESTMember(params.msg.mentions[0].id);
+        } else {
+            params.guild.getRESTMember(params.args.split(" ")[0]).then((mem)=>member=mem).catch((or)=>{})
         }
-        executeAction(this.type, member, params.author.user, params.args.split(" ").slice(1).join(" "), params.guild);
+        if (member == undefined) {
+            
+        }
+        executeAction(this.type, member.user, params.author.user, params.args.split(" ").slice(1).join(" "), params.guild);
     }
 }
