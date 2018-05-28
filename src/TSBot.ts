@@ -2,21 +2,50 @@
 import {Client} from "eris";
 import {Config} from "./Config";
 import {onMessageCreate, onReady} from "./events";
+import { readdir } from "fs";
+import Command from "./structs/Command";
 
-class TSBot extends Client {
-    commands: Map<string, object> = new Map();
+export class TSBot extends Client {
+    commands: Map<string, Command> = new Map();
+    prefixes: Array<string>;
+    name: string;
+    desc: string;
+    ownerid: string;
 
-    constructor(token: string) {
-        super(token);
+    constructor(config: Config) {
+        super(config.token);
+        config.prefixes.push(`<@${config.id}> `);
+        this.prefixes = config.prefixes;
+        this.name = config.name;
+        this.desc = config.desc;
+        this.ownerid = this.ownerid;
         this.run()
     }
 
     async run() {
+        this.loadCommands();
+
         this.on("ready", onReady);
         this.on("messageCreate", onMessageCreate);
 
+
+
         await this.connect();
+    }
+
+    loadCommands() {
+        readdir(__dirname + "/commands", (err: NodeJS.ErrnoException, filenames: Array<string>) => {
+            if (err) {
+                console.error(err.message);
+                return;
+            }
+            filenames.forEach((name: string, index: number, names: Array<string>)=>{
+                if (name.endsWith(".map")) return;
+                let command = new (require(`./commands/${name}`).default)();
+                this.commands.set(command.name, command);
+            })
+        })
     }
 }
 
-new TSBot(new Config().token);
+new TSBot(new Config());

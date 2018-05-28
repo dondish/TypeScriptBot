@@ -1,0 +1,26 @@
+{
+  "name": "typescriptbot",
+  "version": "1.0.0",
+  "description": "A little bot I made in TypeScript to help run my server.",
+  "main": "out/TSBot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node out/TSBot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dondish/TypeScriptBot.git"
+  },
+  "author": "Dondish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dondish/TypeScriptBot/issues"
+  },
+  "homepage": "https://github.com/dondish/TypeScriptBot#readme",
+  "dependencies": {
+    "eris": "^0.8.6",
+    "eslint": "^4.19.1",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
+  }
+}

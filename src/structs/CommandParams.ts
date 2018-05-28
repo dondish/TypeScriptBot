@@ -1,4 +1,5 @@
-import {Client, Guild, Member, Message} from "eris";
+import {Client, Guild, Member, Message, TextChannel} from "eris";
+import { TSBot } from "../TSBot";
 
 export default interface CommandParams {
     client: Client;
@@ -6,4 +7,6 @@ export default interface CommandParams {
     msg: Message;
     author: Member;
     guild: Guild;
+    channel: TextChannel;
+    bot: TSBot;
 }
