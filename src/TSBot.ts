@@ -24,13 +24,20 @@ export class TSBot extends Client {
 
     async run() {
         this.loadCommands();
-
         this.on("ready", onReady);
         this.on("messageCreate", onMessageCreate);
-
-
-
         await this.connect();
+    }
+
+    async reload() {
+        await this.disconnect({reconnect:false});
+        this.commands.clear()
+        await this.run()
+    }
+
+    async shutdown() {
+        await this.disconnect({reconnect: false});
+        process.exit(0);
     }
 
     loadCommands() {
