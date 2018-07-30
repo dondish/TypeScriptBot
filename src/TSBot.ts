@@ -30,13 +30,13 @@ export class TSBot extends Client {
     }
 
     async reload() {
-        await this.disconnect({reconnect:false});
+        this.disconnect({reconnect:false});
         this.commands.clear()
         await this.run()
     }
 
-    async shutdown() {
-        await this.disconnect({reconnect: false});
+    shutdown() {
+        this.disconnect({reconnect: false});
         process.exit(0);
     }
 
@@ -48,8 +48,11 @@ export class TSBot extends Client {
             }
             filenames.forEach((name: string, index: number, names: Array<string>)=>{
                 if (name.endsWith(".map")) return;
-                let command = new (require(`./commands/${name}`).default)();
+                let command: Command = new (require(`./commands/${name}`).default)();
                 this.commands.set(command.name, command);
+                for (let alias of command.aliases) {
+                    this.commands.set(alias, command);
+                } 
             })
         })
     }

@@ -5,6 +5,7 @@ export default abstract class Command {
     abstract name: string;
     abstract desc: string;
     abstract usage: string;
+    aliases: Array<string> = [];
     hidden: boolean = false;
     ownerOnly: boolean = false;
     abstract async execute(args: CommandParams): Promise<void>;
